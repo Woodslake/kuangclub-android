@@ -20,7 +20,7 @@ import com.kuangclub.ui.fragment.QuotationFragment;
 public class MainActivity extends BaseActivity {
     private RadioGroup rgBottom;
 
-    private Fragment homeFragment, poolFragment, quotationFragment, accountFragment;
+    private Fragment homeFragment, quotationFragment, poolFragment, accountFragment;
     private Fragment curFragment;
 
     @Override
@@ -33,8 +33,8 @@ public class MainActivity extends BaseActivity {
 
     private void initData(){
         homeFragment = new HomeFragment();
-        poolFragment = new PoolFragment();
         quotationFragment = new QuotationFragment();
+        poolFragment = new PoolFragment();
         accountFragment = new AccountFragment();
     }
 
@@ -56,11 +56,11 @@ public class MainActivity extends BaseActivity {
             case R.id.rb_home:
                 curFragment = homeFragment;
                 break;
-            case R.id.rb_pool:
-                curFragment = poolFragment;
-                break;
             case R.id.rb_quotation:
                 curFragment = quotationFragment;
+                break;
+            case R.id.rb_pool:
+                curFragment = poolFragment;
                 break;
             case R.id.rb_account:
                 curFragment = accountFragment;
