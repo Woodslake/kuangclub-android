@@ -72,7 +72,7 @@ public class HomePageFragment extends BaseFragment {
     private List<String> refresh(){
         List<String> list = new ArrayList<>();
         int start = index;
-        for (int i = start; i < start + 10; i++){
+        for (int i = start; i < start + 5; i++){
             String str = "i = " + i;
             list.add(str);
             index++;
