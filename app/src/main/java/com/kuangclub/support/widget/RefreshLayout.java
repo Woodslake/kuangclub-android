@@ -1,4 +1,4 @@
-package com.kuangclub.ui.wigget;
+package com.kuangclub.support.widget;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

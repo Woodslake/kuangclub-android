@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.kuangclub.R;
 import com.kuangclub.ui.adapter.HomeRecyclerAdapter;
 import com.kuangclub.ui.base.BaseFragment;
-import com.kuangclub.ui.wigget.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
