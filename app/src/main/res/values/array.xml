@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="home_tabs">
+        <item>推荐</item>
+        <item>专栏"</item>
+        <item>快讯</item>
+        <item>政策</item>
+        <item>矿圈</item>
+    </array>
+</resources>
