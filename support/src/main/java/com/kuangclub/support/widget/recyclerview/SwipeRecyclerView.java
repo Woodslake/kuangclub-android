@@ -1,7 +1,6 @@
 package com.kuangclub.support.widget.recyclerview;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,8 +23,9 @@ public class SwipeRecyclerView extends RecyclerView {
 
     private OnScrollListener onScrollListener;
 
-    boolean isScrolling = false;
-    boolean loadingMoreEnabled = true;
+    boolean isScrolling;
+    boolean isRefreshing;
+    boolean isLoadingMore;
 
 
     public SwipeRecyclerView(Context context) {
@@ -58,7 +58,7 @@ public class SwipeRecyclerView extends RecyclerView {
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         Log.i("SwipeRecyclerView", "state: " + state);
-        if(state == SCROLL_STATE_IDLE && isScrolling && loadingMoreEnabled){
+        if(state == SCROLL_STATE_IDLE && isScrolling){
             LayoutManager layoutManager = getLayoutManager();
             int lastVisibleItemPosition;
             if (layoutManager instanceof GridLayoutManager) {
@@ -107,18 +107,22 @@ public class SwipeRecyclerView extends RecyclerView {
     }
 
     public void refresh(){
+        isRefreshing = true;
         headerView.setVisibility(View.VISIBLE);
     }
 
     public void refreshOver(){
+        isRefreshing = false;
         headerView.setVisibility(View.GONE);
     }
 
     public void loadMore(){
+        isLoadingMore = true;
         footerView.setVisibility(View.VISIBLE);
     }
 
     public void loadMoreOver(){
+        isLoadingMore = false;
         footerView.setVisibility(View.GONE);
     }
 
