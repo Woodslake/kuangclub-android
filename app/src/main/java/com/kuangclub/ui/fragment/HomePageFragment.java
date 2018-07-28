@@ -10,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.kuangclub.R;
 import com.kuangclub.ui.adapter.HomeRecyclerAdapter;
 import com.kuangclub.ui.base.BaseFragment;
 import com.kuangclub.ui.wigget.RefreshLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Woodslake on 2018/7/28.
@@ -27,6 +29,8 @@ public class HomePageFragment extends BaseFragment {
     private HomeRecyclerAdapter homeRecyclerAdapter;
 
     private int type;
+    private List<String> list;
+    private int index = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,7 +53,8 @@ public class HomePageFragment extends BaseFragment {
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        homeRecyclerAdapter = new HomeRecyclerAdapter();
+        list = refresh();
+        homeRecyclerAdapter = new HomeRecyclerAdapter(list);
     }
 
     @Override
@@ -64,6 +69,10 @@ public class HomePageFragment extends BaseFragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        List refreshList = refresh();
+                        list.clear();
+                        list.addAll(refreshList);
+                        homeRecyclerAdapter.notifyDataSetChanged();
                         refresh_layout.setRefreshing(false);
                     }
                 }, 1000);
@@ -79,5 +88,20 @@ public class HomePageFragment extends BaseFragment {
     public HomePageFragment setType(int type) {
         this.type = type;
         return this;
+    }
+
+    private List<String> refresh(){
+        List<String> list = new ArrayList<>();
+        int start = index;
+        for (int i = start; i < start + 10; i++){
+            String str = "i = " + i;
+            list.add(str);
+            index++;
+        }
+        return list;
+    }
+
+    private void loadMore(){
+
     }
 }

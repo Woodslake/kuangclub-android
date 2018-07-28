@@ -10,10 +10,18 @@ import android.widget.TextView;
 
 import com.kuangclub.R;
 
+import java.util.List;
+
 /**
  * Created by Woodslake on 2018/7/28.
  */
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.ViewHolder> {
+
+    private List<String> list;
+
+    public HomeRecyclerAdapter(List<String> list) {
+        this.list = list;
+    }
 
     @NonNull
     @Override
@@ -25,12 +33,12 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+            holder.tvRecycler.setText(list.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return list.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
