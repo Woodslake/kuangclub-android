@@ -4,17 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.kuangclub.support.widget.RefreshLayout
-        android:id="@+id/refresh_layout"
+    <com.kuangclub.support.widget.recyclerview.SwipeRecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"/>
-
-    </com.kuangclub.support.widget.RefreshLayout>
+        android:layout_height="match_parent"
+        android:overScrollMode="never"/>
 
 </android.support.constraint.ConstraintLayout>
