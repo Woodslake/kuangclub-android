@@ -1,6 +1,7 @@
 package com.kuangclub.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,8 +50,9 @@ public class HomePageFragment extends BaseFragment {
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        list = refresh();
+        list = new ArrayList<>();
         homeRecyclerAdapter = new HomeRecyclerAdapter(list);
+        refresh();
     }
 
     @Override
@@ -61,7 +63,31 @@ public class HomePageFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(homeRecyclerAdapter);
+        recyclerView.setOnScrollListener(new SwipeRecyclerView.OnScrollListener() {
+            @Override
+            public void onRefresh() {
+                recyclerView.refresh();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.refreshOver();
+                        refresh();
+                    }
+                }, 1000);
+            }
 
+            @Override
+            public void onLoadMore() {
+                recyclerView.loadMore();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        recyclerView.loadMoreOver();
+                        loadMore();
+                    }
+                }, 1000);
+            }
+        });
     }
 
     public HomePageFragment setType(int type) {
@@ -69,18 +95,29 @@ public class HomePageFragment extends BaseFragment {
         return this;
     }
 
-    private List<String> refresh(){
-        List<String> list = new ArrayList<>();
+    private void refresh(){
+        index = 0;
         int start = index;
-        for (int i = start; i < start + 5; i++){
+        List<String> list = new ArrayList<>();
+        for (int i = start; i < start + 10; i++){
             String str = "i = " + i;
             list.add(str);
             index++;
         }
-        return list;
+        this.list.clear();
+        this.list.addAll(list);
+        homeRecyclerAdapter.notifyDataSetChanged();
     }
 
     private void loadMore(){
-
+        int start = index;
+        List<String> list = new ArrayList<>();
+        for (int i = start; i < start + 10; i++){
+            String str = "i = " + i;
+            list.add(str);
+            index++;
+        }
+        this.list.addAll(list);
+        homeRecyclerAdapter.notifyDataSetChanged();
     }
 }

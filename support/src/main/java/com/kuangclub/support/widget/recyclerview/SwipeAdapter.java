@@ -28,14 +28,14 @@ public class SwipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType == TYPE_HEADER){
-            if(headerView == null){
-                headerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_default, parent, false);
-            }
+//            if(headerView == null){
+//                headerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.header_default, parent, false);
+//            }
             return new ViewHolder(headerView);
         }else if(viewType == TYPE_FOOTER){
-            if(footerView == null){
-                footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_default, parent, false);
-            }
+//            if(footerView == null){
+//                footerView = LayoutInflater.from(parent.getContext()).inflate(R.layout.footer_default, parent, false);
+//            }
             return new ViewHolder(footerView);
         }else{
             return adapter.onCreateViewHolder(parent, viewType);
