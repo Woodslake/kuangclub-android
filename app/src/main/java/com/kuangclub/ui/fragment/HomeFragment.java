@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment {
         titles = getResources().getStringArray(R.array.home_tabs);
         fragments = new HomePageFragment[titles.length];
         for (int i = 0; i < titles.length; i++){
-            fragments[i] = new HomePageFragment();
+            fragments[i] = new HomePageFragment().setType(i);
         }
         homePageAdapter = new HomePageAdapter(getChildFragmentManager(), fragments, titles);
     }
