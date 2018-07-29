@@ -17,7 +17,7 @@ import com.kuangclub.support.R;
  * Created by Woodslake on 2018/7/28.
  */
 public class SwipeRecyclerView extends RecyclerView {
-    private SwipeAdapter swipeAdapter;
+    private AdapterWrapper adapterWrapper;
     private View headerView;
     private View footerView;
 
@@ -48,10 +48,10 @@ public class SwipeRecyclerView extends RecyclerView {
     public void setAdapter(Adapter adapter) {
         headerView.setVisibility(View.GONE);
         footerView.setVisibility(View.GONE);
-        swipeAdapter = new SwipeAdapter(adapter);
-        swipeAdapter.addHeaderView(headerView);
-        swipeAdapter.addFooterView(footerView);
-        super.setAdapter(swipeAdapter);
+        adapterWrapper = new AdapterWrapper(adapter);
+        adapterWrapper.addHeaderView(headerView);
+        adapterWrapper.addFooterView(footerView);
+        super.setAdapter(adapterWrapper);
     }
 
     @Override

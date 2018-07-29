@@ -2,16 +2,13 @@ package com.kuangclub.support.widget.recyclerview;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.kuangclub.support.R;
 
 /**
  * Created by Woodslake on 2018/7/28.
  */
-public class SwipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class AdapterWrapper extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 10000;
     private static final int TYPE_FOOTER = 20000;
 
@@ -20,7 +17,7 @@ public class SwipeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private View headerView;
     private View footerView;
 
-    public SwipeAdapter(RecyclerView.Adapter adapter) {
+    public AdapterWrapper(RecyclerView.Adapter adapter) {
         this.adapter = adapter;
     }
 
