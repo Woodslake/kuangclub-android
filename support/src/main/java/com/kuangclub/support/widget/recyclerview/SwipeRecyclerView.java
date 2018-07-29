@@ -2,13 +2,19 @@ package com.kuangclub.support.widget.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.kuangclub.support.R;
 
@@ -16,13 +22,17 @@ import com.kuangclub.support.R;
  * Created by Woodslake on 2018/7/28.
  */
 public class SwipeRecyclerView extends RecyclerView {
+    private static final float DRAG_RATE = 0.5f;
+
     private AdapterWrapper adapterWrapper;
     private View headerView;
     private View footerView;
 
     private OnSwipeListener onSwipeListener;
 
-    private int mTouchSlop;
+    private int totalDragDistance;
+    private int touchSlop;
+    private int height = 0;
     private int activePointerId;
     private float startY;
     boolean isScrolling;
@@ -31,17 +41,15 @@ public class SwipeRecyclerView extends RecyclerView {
 
     public SwipeRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        View defaultHeaderView = LayoutInflater.from(context).inflate(R.layout.header_default, null);
-        View defaultFooterView = LayoutInflater.from(context).inflate(R.layout.footer_default, null);
-        setHeaderView(defaultHeaderView);
-        setFooterView(defaultFooterView);
+        final DisplayMetrics metrics = getResources().getDisplayMetrics();
+        totalDragDistance = (int) (100 * metrics.density);
+        touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        headerView = LayoutInflater.from(context).inflate(R.layout.header_default, null);
+        footerView = LayoutInflater.from(context).inflate(R.layout.footer_default, null);
     }
 
     @Override
     public void setAdapter(Adapter adapter) {
-        headerView.setVisibility(View.GONE);
-        footerView.setVisibility(View.GONE);
         adapterWrapper = new AdapterWrapper(adapter);
         adapterWrapper.addHeaderView(headerView);
         adapterWrapper.addFooterView(footerView);
@@ -55,6 +63,7 @@ public class SwipeRecyclerView extends RecyclerView {
         if(state == SCROLL_STATE_IDLE && isScrolling){
             if(!canScrollVertically(1)){
                 if(onSwipeListener != null){
+                    loadMore();
                     onSwipeListener.onLoadMore();
                 }
             }
@@ -78,18 +87,23 @@ public class SwipeRecyclerView extends RecyclerView {
                 break;
             case MotionEvent.ACTION_MOVE:
                 pointerIndex = e.findPointerIndex(activePointerId);
+                Log.i("SwipeRecyclerView", "pointerIndex: " + pointerIndex);
                 if (pointerIndex < 0) {
                     Log.e("SwipeRecyclerView", "Got ACTION_MOVE event but have an invalid active pointer id.");
                     return false;
                 }
                 final float y = e.getY(pointerIndex);
-                if(!canScrollVertically(-1) && y - startY > mTouchSlop && !isRefreshing){
-                    if(onSwipeListener != null){
-                        onSwipeListener.onRefresh();
+                final float yDiff = y - startY;
+                Log.i("SwipeRecyclerView", "canScrollVertically: " + canScrollVertically(-1) + ", yDiff: " + yDiff + ", touchSlop: " + touchSlop);
+                if(!canScrollVertically(-1) && yDiff > touchSlop){
+                    final float overScrollTop = yDiff * DRAG_RATE;
+                    if(overScrollTop > 0){
+                        zoom(overScrollTop);
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                revert();
                 break;
             case MotionEvent.ACTION_CANCEL:
                 break;
@@ -97,40 +111,54 @@ public class SwipeRecyclerView extends RecyclerView {
         return super.onTouchEvent(e);
     }
 
-    public void setHeaderView(View view){
-        headerView = view;
-    }
-
-    public void setFooterView(View view){
-        footerView = view;
-    }
-
     public void setOnSwipeListener(OnSwipeListener onSwipeListener){
         this.onSwipeListener = onSwipeListener;
     }
 
-    public void refresh(){
+    private void zoom(float zoom){
+        ViewGroup.LayoutParams layoutParams = headerView.getLayoutParams();
+        layoutParams.height = (int) (height + zoom);
+        headerView.setLayoutParams(layoutParams);
+        if(height + zoom > totalDragDistance && !isRefreshing){
+            isRefreshing = true;
+        }else {
+            isRefreshing = false;
+        }
+    }
+
+    private void revert(){
+        int height = 0;
+        if(isRefreshing){
+            height = totalDragDistance;
+        }
+        ViewGroup.LayoutParams layoutParams = headerView.getLayoutParams();
+        layoutParams.height = height;
+        headerView.setLayoutParams(layoutParams);
+    }
+
+    private void refresh(){
         Log.i("SwipeRecyclerView", "refresh");
         isRefreshing = true;
-        headerView.setVisibility(View.VISIBLE);
+        if(onSwipeListener != null){
+            onSwipeListener.onRefresh();
+        }
     }
 
     public void refreshOver(){
         Log.i("SwipeRecyclerView", "refreshOver");
         isRefreshing = false;
-        headerView.setVisibility(View.GONE);
     }
 
-    public void loadMore(){
+    private void loadMore(){
         Log.i("SwipeRecyclerView", "loadMore");
         isLoadingMore = true;
-        footerView.setVisibility(View.VISIBLE);
+//        footerView.setVisibility(View.VISIBLE);
     }
 
     public void loadMoreOver(){
         Log.i("SwipeRecyclerView", "loadMoreOver");
         isLoadingMore = false;
-        footerView.setVisibility(View.GONE);
+//        footerView.setVisibility(View.GONE);
     }
 
     public interface OnSwipeListener {

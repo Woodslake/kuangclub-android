@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SwipeRecyclerView">
+        <attr name="headBackground" format="reference"/>
+        <attr name="headIcon" format="reference"/>
+        <attr name="headTitle" format="string"/>
+        <attr name="headContent" format="string"/>
+    </declare-styleable>
+</resources>

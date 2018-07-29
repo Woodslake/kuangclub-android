@@ -66,7 +66,6 @@ public class HomePageFragment extends BaseFragment {
         recyclerView.setOnSwipeListener(new SwipeRecyclerView.OnSwipeListener() {
             @Override
             public void onRefresh() {
-                recyclerView.refresh();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -78,7 +77,6 @@ public class HomePageFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
-                recyclerView.loadMore();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -99,7 +97,7 @@ public class HomePageFragment extends BaseFragment {
         index = 0;
         int start = index;
         List<String> list = new ArrayList<>();
-        for (int i = start; i < start + 10; i++){
+        for (int i = start; i < start + 50; i++){
             String str = "i = " + i;
             list.add(str);
             index++;
