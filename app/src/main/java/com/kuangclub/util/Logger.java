@@ -29,10 +29,8 @@ public class Logger {
     }
 
     public static void error(String tag, String message){
-        if(LOG_DEBUG){
-            if(!TextUtils.isEmpty(message)){
-                Log.e(tag, message);
-            }
+        if(!TextUtils.isEmpty(message)){
+            Log.e(tag, message);
         }
     }
 
