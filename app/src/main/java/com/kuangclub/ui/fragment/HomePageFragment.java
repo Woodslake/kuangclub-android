@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +63,7 @@ public class HomePageFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(homeRecyclerAdapter);
-        recyclerView.setOnScrollListener(new SwipeRecyclerView.OnScrollListener() {
+        recyclerView.setOnSwipeListener(new SwipeRecyclerView.OnSwipeListener() {
             @Override
             public void onRefresh() {
                 recyclerView.refresh();
@@ -89,7 +88,6 @@ public class HomePageFragment extends BaseFragment {
                 }, 1000);
             }
         });
-        new SwipeRefreshLayout(getActivity()).setOnRefreshListener(null);
     }
 
     public HomePageFragment setType(int type) {

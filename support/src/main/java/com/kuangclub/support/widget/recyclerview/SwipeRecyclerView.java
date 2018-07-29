@@ -20,7 +20,7 @@ public class SwipeRecyclerView extends RecyclerView {
     private View headerView;
     private View footerView;
 
-    private OnScrollListener onScrollListener;
+    private OnSwipeListener onSwipeListener;
 
     private int mTouchSlop;
     private int activePointerId;
@@ -54,8 +54,8 @@ public class SwipeRecyclerView extends RecyclerView {
         Log.i("SwipeRecyclerView", "state: " + state);
         if(state == SCROLL_STATE_IDLE && isScrolling){
             if(!canScrollVertically(1)){
-                if(onScrollListener != null){
-                    onScrollListener.onLoadMore();
+                if(onSwipeListener != null){
+                    onSwipeListener.onLoadMore();
                 }
             }
         }
@@ -84,8 +84,8 @@ public class SwipeRecyclerView extends RecyclerView {
                 }
                 final float y = e.getY(pointerIndex);
                 if(y - startY > mTouchSlop && !isRefreshing){
-                    if(onScrollListener != null){
-                        onScrollListener.onRefresh();
+                    if(onSwipeListener != null){
+                        onSwipeListener.onRefresh();
                     }
                 }
                 break;
@@ -105,8 +105,8 @@ public class SwipeRecyclerView extends RecyclerView {
         footerView = view;
     }
 
-    public void setOnScrollListener(OnScrollListener mOnScrollListener){
-        this.onScrollListener = mOnScrollListener;
+    public void setOnSwipeListener(OnSwipeListener onSwipeListener){
+        this.onSwipeListener = onSwipeListener;
     }
 
     public void refresh(){
@@ -133,7 +133,7 @@ public class SwipeRecyclerView extends RecyclerView {
         footerView.setVisibility(View.GONE);
     }
 
-    public interface OnScrollListener {
+    public interface OnSwipeListener {
 
         void onRefresh();
 
