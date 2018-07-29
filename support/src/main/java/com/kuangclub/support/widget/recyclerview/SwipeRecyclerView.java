@@ -18,7 +18,7 @@ import com.kuangclub.support.R;
  * Created by Woodslake on 2018/7/28.
  */
 public class SwipeRecyclerView extends RecyclerView {
-    private static final float DRAG_RATE = 0.6f;
+    private static final float DRAG_RATE = 0.5f;
 
     private AdapterWrapper adapterWrapper;
     private View headerView;
@@ -26,7 +26,8 @@ public class SwipeRecyclerView extends RecyclerView {
 
     private OnSwipeListener onSwipeListener;
 
-    private int totalDragDistance;
+    private int headerViewWidth;
+    private float totalDragDistance;
     private int touchSlop;
     private int activePointerId;
     private float startY;
@@ -37,7 +38,7 @@ public class SwipeRecyclerView extends RecyclerView {
     public SwipeRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
-        totalDragDistance = (int) (100 * metrics.density);
+        totalDragDistance = 100 * metrics.density;
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         headerView = LayoutInflater.from(context).inflate(R.layout.header_default, null);
         footerView = LayoutInflater.from(context).inflate(R.layout.footer_default, null);
@@ -91,7 +92,8 @@ public class SwipeRecyclerView extends RecyclerView {
                 final float yDiff = y - startY;
                 Log.i("SwipeRecyclerView", "canScrollVertically: " + canScrollVertically(-1) + ", yDiff: " + yDiff + ", touchSlop: " + touchSlop);
                 if(!canScrollVertically(-1) && yDiff > touchSlop){
-                    zoom(yDiff);
+                    final float overScrollTop = yDiff * DRAG_RATE;
+                    zoom(overScrollTop);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -107,27 +109,34 @@ public class SwipeRecyclerView extends RecyclerView {
         this.onSwipeListener = onSwipeListener;
     }
 
-    private void zoom(float diff){
-        int height = 0;
-        float zoom = diff * DRAG_RATE;
-        if(height + zoom >= totalDragDistance && !isRefreshing){
-            isRefreshing = true;
+    private void zoom(float overScrollTop){
+        if(overScrollTop >= totalDragDistance){
+            if(!isRefreshing){
+                isRefreshing = true;
+            }
         }else {
             isRefreshing = false;
         }
+        if(headerViewWidth <= 0){
+            headerViewWidth = headerView.getMeasuredWidth();
+        }
+        float overWidth = Math.max(0, overScrollTop - totalDragDistance) * 0.5f;
+        float overHeight = Math.max(overScrollTop, totalDragDistance);
+        overWidth = overScrollTop * 0.5f;
+        overHeight = overScrollTop;
         ViewGroup.LayoutParams layoutParams = headerView.getLayoutParams();
-        layoutParams.height = (int) (height + zoom);
+        layoutParams.height = (int) (overHeight);
+        layoutParams.width = (int) (headerViewWidth + overWidth);
+        ((MarginLayoutParams)layoutParams).setMargins(-(layoutParams.width - headerViewWidth) / 2, 0, 0, 0);
         headerView.setLayoutParams(layoutParams);
     }
 
     private void revert(){
-        int height = 0;
+        float overScrollTop = 0;
         if(isRefreshing){
-            height = totalDragDistance;
+            overScrollTop = totalDragDistance;
         }
-        ViewGroup.LayoutParams layoutParams = headerView.getLayoutParams();
-        layoutParams.height = height;
-        headerView.setLayoutParams(layoutParams);
+        zoom(overScrollTop);
     }
 
     private void refresh(){
