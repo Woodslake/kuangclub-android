@@ -2,7 +2,6 @@ package com.kuangclub.support.widget.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.CircularProgressDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -12,9 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.kuangclub.support.R;
 
@@ -22,7 +18,7 @@ import com.kuangclub.support.R;
  * Created by Woodslake on 2018/7/28.
  */
 public class SwipeRecyclerView extends RecyclerView {
-    private static final float DRAG_RATE = 0.5f;
+    private static final float DRAG_RATE = 0.6f;
 
     private AdapterWrapper adapterWrapper;
     private View headerView;
@@ -32,7 +28,6 @@ public class SwipeRecyclerView extends RecyclerView {
 
     private int totalDragDistance;
     private int touchSlop;
-    private int height = 0;
     private int activePointerId;
     private float startY;
     boolean isScrolling;
@@ -96,10 +91,7 @@ public class SwipeRecyclerView extends RecyclerView {
                 final float yDiff = y - startY;
                 Log.i("SwipeRecyclerView", "canScrollVertically: " + canScrollVertically(-1) + ", yDiff: " + yDiff + ", touchSlop: " + touchSlop);
                 if(!canScrollVertically(-1) && yDiff > touchSlop){
-                    final float overScrollTop = yDiff * DRAG_RATE;
-                    if(overScrollTop > 0){
-                        zoom(overScrollTop);
-                    }
+                    zoom(yDiff);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -115,15 +107,17 @@ public class SwipeRecyclerView extends RecyclerView {
         this.onSwipeListener = onSwipeListener;
     }
 
-    private void zoom(float zoom){
-        ViewGroup.LayoutParams layoutParams = headerView.getLayoutParams();
-        layoutParams.height = (int) (height + zoom);
-        headerView.setLayoutParams(layoutParams);
-        if(height + zoom > totalDragDistance && !isRefreshing){
+    private void zoom(float diff){
+        int height = 0;
+        float zoom = diff * DRAG_RATE;
+        if(height + zoom >= totalDragDistance && !isRefreshing){
             isRefreshing = true;
         }else {
             isRefreshing = false;
         }
+        ViewGroup.LayoutParams layoutParams = headerView.getLayoutParams();
+        layoutParams.height = (int) (height + zoom);
+        headerView.setLayoutParams(layoutParams);
     }
 
     private void revert(){
