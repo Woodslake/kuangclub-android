@@ -2,14 +2,13 @@ package com.kuangclub.support.widget.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 
 import com.kuangclub.support.R;
 
@@ -23,25 +22,20 @@ public class SwipeRecyclerView extends RecyclerView {
 
     private OnScrollListener onScrollListener;
 
+    private int mTouchSlop;
+    private int activePointerId;
+    private float startY;
     boolean isScrolling;
     boolean isRefreshing;
     boolean isLoadingMore;
 
-
-    public SwipeRecyclerView(Context context) {
-        super(context);
-    }
-
     public SwipeRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         View defaultHeaderView = LayoutInflater.from(context).inflate(R.layout.header_default, null);
         View defaultFooterView = LayoutInflater.from(context).inflate(R.layout.footer_default, null);
         setHeaderView(defaultHeaderView);
         setFooterView(defaultFooterView);
-    }
-
-    public SwipeRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
     }
 
     @Override
@@ -55,40 +49,11 @@ public class SwipeRecyclerView extends RecyclerView {
     }
 
     @Override
-    public void onScrolled(int dx, int dy) {
-        super.onScrolled(dx, dy);
-        Log.i("SwipeRecyclerView", "dx: " + dx + ", dy: " + dy);
-        if(dy <= 0){
-            if(!canScrollVertically(-1) && !isRefreshing){
-                if(onScrollListener != null){
-                    onScrollListener.onRefresh();
-                }
-            }
-        }
-    }
-
-    @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         Log.i("SwipeRecyclerView", "state: " + state);
         if(state == SCROLL_STATE_IDLE && isScrolling){
-            LayoutManager layoutManager = getLayoutManager();
-            int lastVisibleItemPosition;
-            if (layoutManager instanceof GridLayoutManager) {
-                lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
-            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                int[] into = new int[((StaggeredGridLayoutManager) layoutManager).getSpanCount()];
-                ((StaggeredGridLayoutManager) layoutManager).findLastVisibleItemPositions(into);
-                lastVisibleItemPosition = findMax(into);
-            } else {
-                lastVisibleItemPosition = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
-            }
-            int excludeFooterItemCount = layoutManager.getItemCount() - 1;
-            if(
-                    layoutManager.getChildCount() > 0
-                    && excludeFooterItemCount >= layoutManager.getChildCount()
-                    && lastVisibleItemPosition >= excludeFooterItemCount
-            ){
+            if(!canScrollVertically(1)){
                 if(onScrollListener != null){
                     onScrollListener.onLoadMore();
                 }
@@ -97,14 +62,39 @@ public class SwipeRecyclerView extends RecyclerView {
         isScrolling = state != SCROLL_STATE_IDLE;
     }
 
-    private int findMax(int[] lastPositions) {
-        int max = lastPositions[0];
-        for (int value : lastPositions) {
-            if (value > max) {
-                max = value;
-            }
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        final int action = e.getActionMasked();
+        int pointerIndex;
+        switch (action){
+            case MotionEvent.ACTION_DOWN:
+                activePointerId = e.getPointerId(0);
+                Log.i("SwipeRecyclerView", "activePointerId: " + activePointerId);
+                pointerIndex = e.findPointerIndex(activePointerId);
+                if (pointerIndex < 0) {
+                    return false;
+                }
+                startY = e.getY(pointerIndex);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                pointerIndex = e.findPointerIndex(activePointerId);
+                if (pointerIndex < 0) {
+                    Log.e("SwipeRecyclerView", "Got ACTION_MOVE event but have an invalid active pointer id.");
+                    return false;
+                }
+                final float y = e.getY(pointerIndex);
+                if(y - startY > mTouchSlop && !isRefreshing){
+                    if(onScrollListener != null){
+                        onScrollListener.onRefresh();
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
         }
-        return max;
+        return super.onTouchEvent(e);
     }
 
     public void setHeaderView(View view){
@@ -115,8 +105,8 @@ public class SwipeRecyclerView extends RecyclerView {
         footerView = view;
     }
 
-    public void setOnScrollListener(OnScrollListener onScrollListener){
-        this.onScrollListener = onScrollListener;
+    public void setOnScrollListener(OnScrollListener mOnScrollListener){
+        this.onScrollListener = mOnScrollListener;
     }
 
     public void refresh(){
