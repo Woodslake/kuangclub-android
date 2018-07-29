@@ -83,7 +83,7 @@ public class SwipeRecyclerView extends RecyclerView {
                     return false;
                 }
                 final float y = e.getY(pointerIndex);
-                if(y - startY > mTouchSlop && !isRefreshing){
+                if(!canScrollVertically(-1) && y - startY > mTouchSlop && !isRefreshing){
                     if(onSwipeListener != null){
                         onSwipeListener.onRefresh();
                     }
