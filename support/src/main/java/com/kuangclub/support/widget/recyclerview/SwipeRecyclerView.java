@@ -55,6 +55,19 @@ public class SwipeRecyclerView extends RecyclerView {
     }
 
     @Override
+    public void onScrolled(int dx, int dy) {
+        super.onScrolled(dx, dy);
+        Log.i("SwipeRecyclerView", "dx: " + dx + ", dy: " + dy);
+        if(dy <= 0){
+            if(!canScrollVertically(-1) && !isRefreshing){
+                if(onScrollListener != null){
+                    onScrollListener.onRefresh();
+                }
+            }
+        }
+    }
+
+    @Override
     public void onScrollStateChanged(int state) {
         super.onScrollStateChanged(state);
         Log.i("SwipeRecyclerView", "state: " + state);
@@ -107,21 +120,25 @@ public class SwipeRecyclerView extends RecyclerView {
     }
 
     public void refresh(){
+        Log.i("SwipeRecyclerView", "refresh");
         isRefreshing = true;
         headerView.setVisibility(View.VISIBLE);
     }
 
     public void refreshOver(){
+        Log.i("SwipeRecyclerView", "refreshOver");
         isRefreshing = false;
         headerView.setVisibility(View.GONE);
     }
 
     public void loadMore(){
+        Log.i("SwipeRecyclerView", "loadMore");
         isLoadingMore = true;
         footerView.setVisibility(View.VISIBLE);
     }
 
     public void loadMoreOver(){
+        Log.i("SwipeRecyclerView", "loadMoreOver");
         isLoadingMore = false;
         footerView.setVisibility(View.GONE);
     }
