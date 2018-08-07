@@ -42,6 +42,12 @@ public class SwipeRecyclerView extends RecyclerView {
         touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         headerView = LayoutInflater.from(context).inflate(R.layout.header_default, null);
         footerView = LayoutInflater.from(context).inflate(R.layout.footer_default, null);
+        headerView.post(new Runnable() {
+            @Override
+            public void run() {
+                headerViewWidth = headerView.getWidth();
+            }
+        });
     }
 
     @Override
@@ -58,7 +64,7 @@ public class SwipeRecyclerView extends RecyclerView {
         Log.i("SwipeRecyclerView", "state: " + state);
         if(state == SCROLL_STATE_IDLE && isScrolling){
             if(!canScrollVertically(1)){
-                if(onSwipeListener != null){
+                    if(onSwipeListener != null){
                     loadMore();
                     onSwipeListener.onLoadMore();
                 }
@@ -116,9 +122,6 @@ public class SwipeRecyclerView extends RecyclerView {
             }
         }else {
             isRefreshing = false;
-        }
-        if(headerViewWidth <= 0){
-            headerViewWidth = headerView.getMeasuredWidth();
         }
         float overWidth = Math.max(0, overScrollTop - totalDragDistance) * 0.5f;
         float overHeight = Math.max(overScrollTop, totalDragDistance);
