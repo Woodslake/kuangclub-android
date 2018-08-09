@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:button="@null"
-            android:text="资讯"/>
+            android:text="@string/tab_info"/>
 
         <RadioButton
             android:id="@+id/rb_quotation"
@@ -38,7 +38,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:button="@null"
-            android:text="行情"/>
+            android:text="@string/tab_quotation"/>
 
         <RadioButton
             android:id="@+id/rb_pool"
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:button="@null"
-            android:text="矿圈"/>
+            android:text="@string/tab_club"/>
 
         <RadioButton
             android:id="@+id/rb_account"
@@ -58,7 +58,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:button="@null"
-            android:text="我的"/>
+            android:text="@string/tab_account"/>
 
     </RadioGroup>
 
