@@ -15,11 +15,11 @@ import java.util.List;
 /**
  * Created by Woodslake on 2018/7/28.
  */
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.ViewHolder> {
+public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapter.ViewHolder> {
 
     private List<String> list;
 
-    public HomeRecyclerAdapter(List<String> list) {
+    public InfoRecyclerAdapter(List<String> list) {
         this.list = list;
     }
 

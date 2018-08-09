@@ -13,7 +13,7 @@ import com.kuangclub.ui.base.BaseFragment;
 /**
  * Created by Woodslake on 2018/7/27.
  */
-public class PoolFragment extends BaseFragment {
+public class ClubFragment extends BaseFragment {
 
     @Nullable
     @Override

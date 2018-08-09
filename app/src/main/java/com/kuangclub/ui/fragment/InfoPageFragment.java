@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuangclub.R;
-import com.kuangclub.ui.adapter.HomeRecyclerAdapter;
+import com.kuangclub.ui.adapter.InfoRecyclerAdapter;
 import com.kuangclub.ui.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import java.util.List;
 /**
  * Created by Woodslake on 2018/7/28.
  */
-public class HomePageFragment extends BaseFragment {
+public class InfoPageFragment extends BaseFragment {
     private RecyclerView recyclerView;
 
-    private HomeRecyclerAdapter homeRecyclerAdapter;
+    private InfoRecyclerAdapter infoRecyclerAdapter;
 
     private int type;
     private List<String> list;
@@ -50,7 +50,7 @@ public class HomePageFragment extends BaseFragment {
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         list = new ArrayList<>();
-        homeRecyclerAdapter = new HomeRecyclerAdapter(list);
+        infoRecyclerAdapter = new InfoRecyclerAdapter(list);
         refresh();
     }
 
@@ -61,10 +61,10 @@ public class HomePageFragment extends BaseFragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(homeRecyclerAdapter);
+        recyclerView.setAdapter(infoRecyclerAdapter);
     }
 
-    public HomePageFragment setType(int type) {
+    public InfoPageFragment setType(int type) {
         this.type = type;
         return this;
     }
@@ -80,7 +80,7 @@ public class HomePageFragment extends BaseFragment {
         }
         this.list.clear();
         this.list.addAll(list);
-        homeRecyclerAdapter.notifyDataSetChanged();
+        infoRecyclerAdapter.notifyDataSetChanged();
     }
 
     private void loadMore(){
@@ -92,6 +92,6 @@ public class HomePageFragment extends BaseFragment {
             index++;
         }
         this.list.addAll(list);
-        homeRecyclerAdapter.notifyDataSetChanged();
+        infoRecyclerAdapter.notifyDataSetChanged();
     }
 }

@@ -10,17 +10,17 @@ import android.widget.RadioGroup;
 import com.kuangclub.R;
 import com.kuangclub.ui.base.BaseActivity;
 import com.kuangclub.ui.fragment.AccountFragment;
-import com.kuangclub.ui.fragment.HomeFragment;
-import com.kuangclub.ui.fragment.PoolFragment;
+import com.kuangclub.ui.fragment.InfoFragment;
+import com.kuangclub.ui.fragment.ClubFragment;
 import com.kuangclub.ui.fragment.QuotationFragment;
 
 /**
  * Created by Woodslake on 2018/7/27.
  */
 public class MainActivity extends BaseActivity {
-    private RadioGroup rgBottom;
+    private RadioGroup radioGroup;
 
-    private Fragment homeFragment, quotationFragment, poolFragment, accountFragment;
+    private Fragment infoFragment, quotationFragment, clubFragment, accountFragment;
     private Fragment curFragment;
 
     @Override
@@ -32,16 +32,16 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initData(){
-        homeFragment = new HomeFragment();
+        infoFragment = new InfoFragment();
         quotationFragment = new QuotationFragment();
-        poolFragment = new PoolFragment();
+        clubFragment = new ClubFragment();
         accountFragment = new AccountFragment();
     }
 
     private void initView(){
-        rgBottom = findViewById(R.id.rg_bottom);
+        radioGroup = findViewById(R.id.rg_bottom);
 
-        rgBottom.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 radioCheck(checkedId);
@@ -54,13 +54,13 @@ public class MainActivity extends BaseActivity {
     private void radioCheck(int checkedId){
         switch (checkedId){
             case R.id.rb_home:
-                curFragment = homeFragment;
+                curFragment = infoFragment;
                 break;
             case R.id.rb_quotation:
                 curFragment = quotationFragment;
                 break;
             case R.id.rb_pool:
-                curFragment = poolFragment;
+                curFragment = clubFragment;
                 break;
             case R.id.rb_account:
                 curFragment = accountFragment;

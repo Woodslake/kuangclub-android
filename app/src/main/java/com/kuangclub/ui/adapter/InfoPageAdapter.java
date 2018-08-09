@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by Woodslake on 2018/7/28.
  */
-public class HomePageAdapter extends FragmentPagerAdapter {
+public class InfoPageAdapter extends FragmentPagerAdapter {
     private Fragment[] fragments;
     private String[] titles;
 
-    public HomePageAdapter(FragmentManager fm, Fragment[] fragments, String[] titles) {
+    public InfoPageAdapter(FragmentManager fm, Fragment[] fragments, String[] titles) {
         super(fm);
         this.fragments = fragments;
         this.titles = titles;

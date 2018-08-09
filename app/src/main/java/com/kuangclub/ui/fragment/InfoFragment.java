@@ -9,20 +9,19 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TableLayout;
 
 import com.kuangclub.R;
-import com.kuangclub.ui.adapter.HomePageAdapter;
+import com.kuangclub.ui.adapter.InfoPageAdapter;
 import com.kuangclub.ui.base.BaseFragment;
 
 /**
  * Created by Woodslake on 2018/7/27.
  */
-public class HomeFragment extends BaseFragment {
+public class InfoFragment extends BaseFragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    private HomePageAdapter homePageAdapter;
+    private InfoPageAdapter infoPageAdapter;
     private Fragment[] fragments;
     private String[] titles;
 
@@ -48,11 +47,11 @@ public class HomeFragment extends BaseFragment {
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
         titles = getResources().getStringArray(R.array.home_tabs);
-        fragments = new HomePageFragment[titles.length];
+        fragments = new InfoPageFragment[titles.length];
         for (int i = 0; i < titles.length; i++){
-            fragments[i] = new HomePageFragment().setType(i);
+            fragments[i] = new InfoPageFragment().setType(i);
         }
-        homePageAdapter = new HomePageAdapter(getChildFragmentManager(), fragments, titles);
+        infoPageAdapter = new InfoPageAdapter(getChildFragmentManager(), fragments, titles);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class HomeFragment extends BaseFragment {
         tabLayout = view.findViewById(R.id.tab_layout);
         viewPager = view.findViewById(R.id.view_pager);
 
-        viewPager.setAdapter(homePageAdapter);
+        viewPager.setAdapter(infoPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++){
             tabLayout.getTabAt(i).setText(titles[i]);
