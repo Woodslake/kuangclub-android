@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="home_tabs">
-        <item>推荐</item>
-        <item>专栏"</item>
-        <item>快讯</item>
+        <item>头条</item>
+        <item>应用</item>
+        <item>焦点</item>
         <item>政策</item>
-        <item>矿圈</item>
+        <item>百科</item>
     </array>
 </resources>

@@ -1,16 +1,15 @@
 package com.kuangclub.ui.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuangclub.R;
-import com.kuangclub.support.widget.recyclerview.SwipeRecyclerView;
 import com.kuangclub.ui.adapter.HomeRecyclerAdapter;
 import com.kuangclub.ui.base.BaseFragment;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * Created by Woodslake on 2018/7/28.
  */
 public class HomePageFragment extends BaseFragment {
-    private SwipeRecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     private HomeRecyclerAdapter homeRecyclerAdapter;
 
@@ -63,29 +62,6 @@ public class HomePageFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(homeRecyclerAdapter);
-        recyclerView.setOnSwipeListener(new SwipeRecyclerView.OnSwipeListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.refreshOver();
-                        refresh();
-                    }
-                }, 1000);
-            }
-
-            @Override
-            public void onLoadMore() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        recyclerView.loadMoreOver();
-                        loadMore();
-                    }
-                }, 1000);
-            }
-        });
     }
 
     public HomePageFragment setType(int type) {

@@ -28,7 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:button="@null"
-            android:text="首页"/>
+            android:text="资讯"/>
 
         <RadioButton
             android:id="@+id/rb_quotation"
@@ -48,7 +48,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:button="@null"
-            android:text="矿池"/>
+            android:text="矿圈"/>
 
         <RadioButton
             android:id="@+id/rb_account"
