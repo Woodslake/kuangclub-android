@@ -21,7 +21,7 @@ public class HttpLogging {
 
         @Override
         public void log(String message) {
-            Logger.log("OkHttp", message);
+            Logger.log("HttpLogging", message);
         }
 
     }

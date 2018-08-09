@@ -2,9 +2,12 @@ package com.kuangclub.http;
 
 import android.content.Context;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.internal.cache.CacheInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,10 +21,15 @@ public class ServiceFactory {
 
     private static OkHttpClient getOkHttpClient(Context context){
         if(okHttpClient == null){
+            File cacheDirectory = new File(context.getCacheDir(), "HttpCache");
+            int cacheSize = 10 * 1024;
+            Cache cache = new Cache(cacheDirectory, cacheSize);
             okHttpClient = new OkHttpClient.Builder()
                     .writeTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10, TimeUnit.SECONDS)
                     .connectTimeout(20, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
+                    .cache(cache)
 //                    .addInterceptor(new HeaderInterceptor())
                     .addInterceptor(new HttpLogging().httpLoggingInterceptor)
                     .cookieJar(new CookieManager())
