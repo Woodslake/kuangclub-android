@@ -19,9 +19,9 @@ public class ServiceFactory {
     private static OkHttpClient getOkHttpClient(Context context){
         if(okHttpClient == null){
             okHttpClient = new OkHttpClient.Builder()
-                    .writeTimeout(60, TimeUnit.SECONDS)
-                    .readTimeout(100, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(10, TimeUnit.SECONDS)
+                    .readTimeout(10, TimeUnit.SECONDS)
+                    .connectTimeout(20, TimeUnit.SECONDS)
 //                    .addInterceptor(new HeaderInterceptor())
                     .addInterceptor(new HttpLogging().httpLoggingInterceptor)
                     .cookieJar(new CookieManager())

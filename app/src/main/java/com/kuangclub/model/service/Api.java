@@ -6,6 +6,6 @@ package com.kuangclub.model.service;
 class Api {
 
     //info
-    static final String getInfoList = "getInfoList";
+    static final String getInfoList = "info/getInfoList";
 
 }

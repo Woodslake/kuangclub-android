@@ -86,7 +86,9 @@ public class InfoFragment extends BaseFragment {
                     @Override
                     public void onResponse(Call<ResponseBody<List<Info>>> call, Response<ResponseBody<List<Info>>> response) {
                         List<Info> data = response.body().getData();
+                        infos.clear();
                         infos.addAll(data);
+                        fragments.clear();
                         for (Info info : infos){
                             fragments.add(new InfoPageFragment().setType(info.getCode()));
                         }
