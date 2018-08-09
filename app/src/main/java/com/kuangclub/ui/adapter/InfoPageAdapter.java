@@ -35,6 +35,6 @@ public class InfoPageAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return infos != null ? infos.get(position).getName() : null;
+        return infos != null ? infos.get(position).getTitle() : null;
     }
 }
