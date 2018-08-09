@@ -9,9 +9,9 @@ import com.kuangclub.BuildConfig;
 public class Server {
     public static String ApiHost = null;
 
-    private static final String ApiHostDevelop = "http://api.kuangclub.com/";
-    private static final String ApiHostMaintain = "http://api.kuangclub.com/";
-    private static final String ApiHostProduce = "http://api.kuangclub.com/";
+    private static final String ApiHostDevelop = "http://192.168.1.6:8080/";
+    private static final String ApiHostMaintain = "http://192.168.1.6:8080/";
+    private static final String ApiHostProduce = "http://192.168.1.6:8080/";
 
     private static final String DEBUG = "DEBUG";        //debug
     private static final String DEVELOP = "DEVELOP";    //开发

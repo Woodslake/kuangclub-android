@@ -22,7 +22,7 @@ public class ServiceFactory {
                     .writeTimeout(60, TimeUnit.SECONDS)
                     .readTimeout(100, TimeUnit.SECONDS)
                     .connectTimeout(60, TimeUnit.SECONDS)
-                    .addInterceptor(new HeaderInterceptor())
+//                    .addInterceptor(new HeaderInterceptor())
                     .addInterceptor(new HttpLogging().httpLoggingInterceptor)
                     .cookieJar(new CookieManager())
                     .build();

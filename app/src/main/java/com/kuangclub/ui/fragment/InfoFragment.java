@@ -11,8 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuangclub.R;
+import com.kuangclub.http.ResponseBody;
+import com.kuangclub.http.ServiceFactory;
+import com.kuangclub.model.bean.Info;
+import com.kuangclub.model.service.InfoService;
 import com.kuangclub.ui.adapter.InfoPageAdapter;
 import com.kuangclub.ui.base.BaseFragment;
+import com.kuangclub.util.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Woodslake on 2018/7/27.
@@ -22,8 +34,8 @@ public class InfoFragment extends BaseFragment {
     private ViewPager viewPager;
 
     private InfoPageAdapter infoPageAdapter;
-    private Fragment[] fragments;
-    private String[] titles;
+    private List<Fragment> fragments;
+    private List<Info> infos;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,12 +58,9 @@ public class InfoFragment extends BaseFragment {
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        titles = getResources().getStringArray(R.array.home_tabs);
-        fragments = new InfoPageFragment[titles.length];
-        for (int i = 0; i < titles.length; i++){
-            fragments[i] = new InfoPageFragment().setType(i);
-        }
-        infoPageAdapter = new InfoPageAdapter(getChildFragmentManager(), fragments, titles);
+        infos = new ArrayList<>();
+        fragments = new ArrayList<>();
+        infoPageAdapter = new InfoPageAdapter(getChildFragmentManager(), fragments, infos);
     }
 
     @Override
@@ -63,8 +72,31 @@ public class InfoFragment extends BaseFragment {
         viewPager.setAdapter(infoPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++){
-            tabLayout.getTabAt(i).setText(titles[i]);
+            tabLayout.getTabAt(i).setText(infos.get(i).getName());
         }
+        refreshData();
     }
 
+    @Override
+    protected void refreshData() {
+        super.refreshData();
+        ServiceFactory.createService(getActivity(), InfoService.class)
+                .getInfoList()
+                .enqueue(new Callback<ResponseBody<List<Info>>>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody<List<Info>>> call, Response<ResponseBody<List<Info>>> response) {
+                        List<Info> data = response.body().getData();
+                        infos.addAll(data);
+                        for (Info info : infos){
+                            fragments.add(new InfoPageFragment().setType(info.getCode()));
+                        }
+                        infoPageAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody<List<Info>>> call, Throwable t) {
+                        Logger.log(TAG, t.getMessage());
+                    }
+                });
+    }
 }

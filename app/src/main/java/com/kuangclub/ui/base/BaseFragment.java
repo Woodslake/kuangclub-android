@@ -10,6 +10,7 @@ import android.view.View;
  * Created by Woodslake on 2018/7/27.
  */
 public abstract class BaseFragment extends Fragment {
+    protected String TAG = getClass().getSimpleName();
 
     protected void initData(@Nullable Bundle savedInstanceState){
 
@@ -18,4 +19,9 @@ public abstract class BaseFragment extends Fragment {
     protected void initView(@NonNull View view, @Nullable Bundle savedInstanceState){
 
     }
+
+    protected void refreshData(){
+
+    }
+
 }

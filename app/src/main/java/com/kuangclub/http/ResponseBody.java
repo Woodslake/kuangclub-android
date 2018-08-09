@@ -6,11 +6,9 @@ import com.google.gson.annotations.SerializedName;
  * Created by Woodslake on 2018/1/30.
  */
 
-public class BaseResponse<T> {
+public class ResponseBody<T> {
     @SerializedName("code")
     private int code;
-    @SerializedName("success")
-    private boolean success;
     @SerializedName("message")
     private String message;
     @SerializedName("data")
@@ -22,14 +20,6 @@ public class BaseResponse<T> {
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getMessage() {

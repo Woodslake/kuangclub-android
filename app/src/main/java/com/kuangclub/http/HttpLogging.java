@@ -1,5 +1,7 @@
 package com.kuangclub.http;
 
+import com.kuangclub.util.Logger;
+
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
@@ -19,7 +21,7 @@ public class HttpLogging {
 
         @Override
         public void log(String message) {
-//            Logger.log("OkHttp", message);
+            Logger.log("OkHttp", message);
         }
 
     }
