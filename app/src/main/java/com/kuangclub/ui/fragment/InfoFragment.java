@@ -72,7 +72,7 @@ public class InfoFragment extends BaseFragment {
         viewPager.setAdapter(infoPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++){
-            tabLayout.getTabAt(i).setText(infos.get(i).getName());
+            tabLayout.getTabAt(i).setText(infos.get(i).getTitle());
         }
         refreshData();
     }
@@ -90,7 +90,7 @@ public class InfoFragment extends BaseFragment {
                         infos.addAll(data);
                         fragments.clear();
                         for (Info info : infos){
-                            fragments.add(new InfoPageFragment().setType(info.getCode()));
+                            fragments.add(new InfoPageFragment().setType(info.getType()));
                         }
                         infoPageAdapter.notifyDataSetChanged();
                     }

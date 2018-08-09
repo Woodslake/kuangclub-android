@@ -24,7 +24,7 @@ public class InfoPageFragment extends BaseFragment {
 
     private InfoRecyclerAdapter infoRecyclerAdapter;
 
-    private int type;
+    private String type;
     private List<String> list;
     private int index = 0;
 
@@ -64,7 +64,7 @@ public class InfoPageFragment extends BaseFragment {
         recyclerView.setAdapter(infoRecyclerAdapter);
     }
 
-    public InfoPageFragment setType(int type) {
+    public InfoPageFragment setType(String type) {
         this.type = type;
         return this;
     }

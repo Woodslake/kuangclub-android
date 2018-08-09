@@ -8,12 +8,12 @@ public class Info {
     /**
      * code : 0
      * type : headline
-     * name : 头条
+     * title : 头条
      */
 
     private int code;
     private String type;
-    private String name;
+    private String title;
 
     public int getCode() {
         return code;
@@ -31,11 +31,11 @@ public class Info {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
