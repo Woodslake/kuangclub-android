@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.kuangclub.R;
 import com.kuangclub.http.ResponseBody;
 import com.kuangclub.http.ServiceFactory;
-import com.kuangclub.model.bean.Info;
+import com.kuangclub.model.bean.InfoType;
 import com.kuangclub.model.service.InfoService;
 import com.kuangclub.ui.adapter.InfoPageAdapter;
 import com.kuangclub.ui.base.BaseFragment;
@@ -35,7 +35,7 @@ public class InfoFragment extends BaseFragment {
 
     private InfoPageAdapter infoPageAdapter;
     private List<Fragment> fragments;
-    private List<Info> infos;
+    private List<InfoType> infoTypes;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,9 +58,9 @@ public class InfoFragment extends BaseFragment {
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        infos = new ArrayList<>();
+        infoTypes = new ArrayList<>();
         fragments = new ArrayList<>();
-        infoPageAdapter = new InfoPageAdapter(getChildFragmentManager(), fragments, infos);
+        infoPageAdapter = new InfoPageAdapter(getChildFragmentManager(), fragments, infoTypes);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class InfoFragment extends BaseFragment {
         viewPager.setAdapter(infoPageAdapter);
         tabLayout.setupWithViewPager(viewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++){
-            tabLayout.getTabAt(i).setText(infos.get(i).getTitle());
+            tabLayout.getTabAt(i).setText(infoTypes.get(i).getTitle());
         }
         refreshData();
     }
@@ -81,22 +81,22 @@ public class InfoFragment extends BaseFragment {
     protected void refreshData() {
         super.refreshData();
         ServiceFactory.createService(getActivity(), InfoService.class)
-                .getInfoList()
-                .enqueue(new Callback<ResponseBody<List<Info>>>() {
+                .getInfoTypeList()
+                .enqueue(new Callback<ResponseBody<List<InfoType>>>() {
                     @Override
-                    public void onResponse(Call<ResponseBody<List<Info>>> call, Response<ResponseBody<List<Info>>> response) {
-                        List<Info> data = response.body().getData();
-                        infos.clear();
-                        infos.addAll(data);
+                    public void onResponse(Call<ResponseBody<List<InfoType>>> call, Response<ResponseBody<List<InfoType>>> response) {
+                        List<InfoType> data = response.body().getData();
+                        infoTypes.clear();
+                        infoTypes.addAll(data);
                         fragments.clear();
-                        for (Info info : infos){
-                            fragments.add(new InfoPageFragment().setType(info.getType()));
+                        for (InfoType infoType : infoTypes){
+                            fragments.add(new InfoPageFragment().setType(infoType.getType()));
                         }
                         infoPageAdapter.notifyDataSetChanged();
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody<List<Info>>> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody<List<InfoType>>> call, Throwable t) {
                         Logger.log(TAG, t.getMessage());
                     }
                 });

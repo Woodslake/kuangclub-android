@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.kuangclub.R;
+import com.kuangclub.model.bean.Info;
 
 import java.util.List;
 
@@ -17,10 +18,10 @@ import java.util.List;
  */
 public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapter.ViewHolder> {
 
-    private List<String> list;
+    private List<Info> infoList;
 
-    public InfoRecyclerAdapter(List<String> list) {
-        this.list = list;
+    public InfoRecyclerAdapter(List<Info> infoList) {
+        this.infoList = infoList;
     }
 
     @NonNull
@@ -33,12 +34,16 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.tvRecycler.setText(list.get(position));
+        Info info = infoList.get(position);
+        if(info == null){
+            return;
+        }
+        holder.tvRecycler.setText(info.getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return infoList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

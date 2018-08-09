@@ -10,11 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuangclub.R;
+import com.kuangclub.http.ResponseBody;
+import com.kuangclub.http.ServiceFactory;
+import com.kuangclub.model.bean.Info;
+import com.kuangclub.model.service.InfoService;
 import com.kuangclub.ui.adapter.InfoRecyclerAdapter;
 import com.kuangclub.ui.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Woodslake on 2018/7/28.
@@ -25,8 +33,8 @@ public class InfoPageFragment extends BaseFragment {
     private InfoRecyclerAdapter infoRecyclerAdapter;
 
     private String type;
-    private List<String> list;
-    private int index = 0;
+    private int page;
+    private List<Info> infoList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,9 +57,8 @@ public class InfoPageFragment extends BaseFragment {
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        list = new ArrayList<>();
-        infoRecyclerAdapter = new InfoRecyclerAdapter(list);
-        refresh();
+        infoList = new ArrayList<>();
+        infoRecyclerAdapter = new InfoRecyclerAdapter(infoList);
     }
 
     @Override
@@ -62,6 +69,8 @@ public class InfoPageFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(infoRecyclerAdapter);
+
+        refreshData();
     }
 
     public InfoPageFragment setType(String type) {
@@ -69,29 +78,25 @@ public class InfoPageFragment extends BaseFragment {
         return this;
     }
 
-    private void refresh(){
-        index = 0;
-        int start = index;
-        List<String> list = new ArrayList<>();
-        for (int i = start; i < start + 50; i++){
-            String str = "i = " + i;
-            list.add(str);
-            index++;
-        }
-        this.list.clear();
-        this.list.addAll(list);
-        infoRecyclerAdapter.notifyDataSetChanged();
-    }
+    @Override
+    protected void refreshData() {
+        super.refreshData();
+        page = 0;
+        ServiceFactory.createService(getActivity(), InfoService.class)
+                .getInfoList(type, page)
+                .enqueue(new Callback<ResponseBody<List<Info>>>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody<List<Info>>> call, Response<ResponseBody<List<Info>>> response) {
+                        List<Info> data = response.body().getData();
+                        infoList.clear();
+                        infoList.addAll(data);
+                        infoRecyclerAdapter.notifyDataSetChanged();
+                    }
 
-    private void loadMore(){
-        int start = index;
-        List<String> list = new ArrayList<>();
-        for (int i = start; i < start + 10; i++){
-            String str = "i = " + i;
-            list.add(str);
-            index++;
-        }
-        this.list.addAll(list);
-        infoRecyclerAdapter.notifyDataSetChanged();
+                    @Override
+                    public void onFailure(Call<ResponseBody<List<Info>>> call, Throwable t) {
+
+                    }
+                });
     }
 }
