@@ -48,18 +48,18 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        radioCheck(R.id.rb_home);
+        radioCheck(R.id.rb_info);
     }
 
     private void radioCheck(int checkedId){
         switch (checkedId){
-            case R.id.rb_home:
+            case R.id.rb_info:
                 curFragment = infoFragment;
                 break;
             case R.id.rb_quotation:
                 curFragment = quotationFragment;
                 break;
-            case R.id.rb_pool:
+            case R.id.rb_club:
                 curFragment = clubFragment;
                 break;
             case R.id.rb_account:
