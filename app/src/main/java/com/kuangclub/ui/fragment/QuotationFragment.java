@@ -24,7 +24,7 @@ public class QuotationFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fagment_quotation, null);
+        return inflater.inflate(R.layout.fragment_quotation, null);
     }
 
     @Override

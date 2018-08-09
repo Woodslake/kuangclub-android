@@ -34,7 +34,7 @@ public class InfoFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fagment_home, null);
+        return inflater.inflate(R.layout.fragment_info, null);
     }
 
     @Override

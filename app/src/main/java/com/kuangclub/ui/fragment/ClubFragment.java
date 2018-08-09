@@ -18,6 +18,6 @@ public class ClubFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fagment_pool, null);
+        return inflater.inflate(R.layout.fragment_club, null);
     }
 }

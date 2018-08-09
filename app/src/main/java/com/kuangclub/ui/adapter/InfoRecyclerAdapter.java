@@ -27,7 +27,7 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_home_page, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_info_page, parent, false);
         return new ViewHolder(view);
     }
 

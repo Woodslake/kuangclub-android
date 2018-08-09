@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">矿客</string>
+
+    <!-- tab -->
+    <string name="tab_info">资讯</string>
+    <string name="tab_quotation">行情</string>
+    <string name="tab_club">矿圈</string>
+    <string name="tab_account">我的</string>
+
 </resources>
