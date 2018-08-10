@@ -1,6 +1,7 @@
 package com.kuangclub.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.kuangclub.R;
 import com.kuangclub.model.bean.Info;
+import com.kuangclub.ui.activity.InfoDetailActivity;
 
 import java.util.List;
 
@@ -44,6 +46,12 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
         Glide.with(context).load(info.getImg()).into(holder.ivImg);
         holder.tvTitle.setText(info.getTitle());
         holder.tvContent.setText(info.getContent());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context, InfoDetailActivity.class));
+            }
+        });
     }
 
     @Override
