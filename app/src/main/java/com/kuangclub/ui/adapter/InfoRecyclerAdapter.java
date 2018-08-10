@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kuangclub.R;
 import com.kuangclub.model.bean.Info;
 
@@ -17,6 +19,7 @@ import java.util.List;
  * Created by Woodslake on 2018/7/28.
  */
 public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapter.ViewHolder> {
+    private Context context;
 
     private List<Info> infoList;
 
@@ -27,7 +30,7 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_info_page, parent, false);
         return new ViewHolder(view);
     }
@@ -38,7 +41,9 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
         if(info == null){
             return;
         }
-        holder.tvRecycler.setText(info.getTitle());
+        Glide.with(context).load(info.getImg()).into(holder.ivImg);
+        holder.tvTitle.setText(info.getTitle());
+        holder.tvContent.setText(info.getContent());
     }
 
     @Override
@@ -47,11 +52,15 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvRecycler;
+        ImageView ivImg;
+        TextView tvTitle;
+        TextView tvContent;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvRecycler = itemView.findViewById(R.id.tv_recycler);
+            ivImg = itemView.findViewById(R.id.iv_img);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvContent = itemView.findViewById(R.id.tv_content);
         }
     }
 }

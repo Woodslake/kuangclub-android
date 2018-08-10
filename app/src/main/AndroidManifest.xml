@@ -26,7 +26,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.WebSocketActivity"></activity>
+        <activity android:name=".ui.activity.WebSocketActivity"/>
+
+        <!-- mete-data -->
+
+        <!-- Glide use okhttp -->
+        <meta-data
+            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
+            android:value="GlideModule" />
+        <meta-data
+            android:name="com.kuangclub.support.CacheGlideModule"
+            android:value="GlideModule"/>
     </application>
 
 </manifest>
