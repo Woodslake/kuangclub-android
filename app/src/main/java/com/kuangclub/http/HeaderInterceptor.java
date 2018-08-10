@@ -21,4 +21,12 @@ public class HeaderInterceptor implements Interceptor {
         Response response = chain.proceed(request);
         return response;
     }
+
+    private static class Header {
+        private static final String UserAgent = "kuangclub-android";
+
+        private static class ContentType{
+            private static final String Json = "application/json;charset=utf-8";
+        }
+    }
 }
