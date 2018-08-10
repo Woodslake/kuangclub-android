@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.internal.cache.CacheInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -22,15 +21,16 @@ public class ServiceFactory {
     private static OkHttpClient getOkHttpClient(Context context){
         if(okHttpClient == null){
             File cacheDirectory = new File(context.getCacheDir(), "HttpCache");
-            int cacheSize = 10 * 1024;
+            int cacheSize = 10 * 1024 * 1024; //10M
             Cache cache = new Cache(cacheDirectory, cacheSize);
             okHttpClient = new OkHttpClient.Builder()
                     .writeTimeout(10, TimeUnit.SECONDS)
                     .readTimeout(10, TimeUnit.SECONDS)
-                    .connectTimeout(20, TimeUnit.SECONDS)
+                    .connectTimeout(10, TimeUnit.SECONDS)
                     .retryOnConnectionFailure(true)
                     .cache(cache)
-//                    .addInterceptor(new HeaderInterceptor())
+                    .addInterceptor(new HeaderInterceptor())
+                    .addInterceptor(new CacheInterceptor(context))
                     .addInterceptor(new HttpLogging().httpLoggingInterceptor)
                     .cookieJar(new CookieManager())
                     .build();
