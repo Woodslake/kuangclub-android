@@ -2,6 +2,8 @@ package com.kuangclub.socket;
 
 import android.support.annotation.Nullable;
 
+import com.kuangclub.util.Logger;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -12,7 +14,7 @@ import okio.ByteString;
 /**
  * Created by Woodslake on 2018/8/10.
  */
-public class WsManager {
+public final class WsManager {
     private static String TAG = "WsManager";
 
     public static void connect(final String wsUrl, final WebSocketListener webSocketListener){
@@ -24,6 +26,7 @@ public class WsManager {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
                 super.onOpen(webSocket, response);
+                Logger.log(TAG, "onOpen");
                 webSocketListener.onOpen(webSocket, response);
             }
 
