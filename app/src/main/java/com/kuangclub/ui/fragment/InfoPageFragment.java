@@ -3,6 +3,7 @@ package com.kuangclub.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import retrofit2.Response;
  * Created by Woodslake on 2018/7/28.
  */
 public class InfoPageFragment extends BaseFragment {
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
 
     private InfoRecyclerAdapter infoRecyclerAdapter;
@@ -64,12 +66,20 @@ public class InfoPageFragment extends BaseFragment {
     @Override
     protected void initView(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.initView(view, savedInstanceState);
+        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
         recyclerView = view.findViewById(R.id.recycler_view);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(infoRecyclerAdapter);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshData();
+            }
+        });
+        swipeRefreshLayout.setRefreshing(true);
         refreshData();
     }
 
@@ -91,6 +101,9 @@ public class InfoPageFragment extends BaseFragment {
                         infoList.clear();
                         infoList.addAll(data);
                         infoRecyclerAdapter.notifyDataSetChanged();
+                        if(swipeRefreshLayout.isRefreshing()){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                     }
 
                     @Override
