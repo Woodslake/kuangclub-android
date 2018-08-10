@@ -19,14 +19,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.activity.WebSocketActivity"/>
+        <!-- service -->
+
+        <service android:name=".service.DownloadService" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <!-- mete-data -->
 
@@ -36,7 +42,23 @@
             android:value="GlideModule" />
         <meta-data
             android:name="com.kuangclub.support.CacheGlideModule"
-            android:value="GlideModule"/>
+            android:value="GlideModule" />
+
+        <!-- activity -->
+
+        <activity android:name=".ui.activity.MainActivity">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.WebSocketActivity" />
+        <activity
+            android:name=".ui.activity.DownloadActivity"
+            android:label="@string/title_activity_download"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>
