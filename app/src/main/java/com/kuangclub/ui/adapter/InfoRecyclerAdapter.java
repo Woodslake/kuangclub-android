@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kuangclub.R;
-import com.kuangclub.model.bean.Info;
+import com.kuangclub.model.bean.InfoType;
 import com.kuangclub.ui.activity.InfoDetailActivity;
 
 import java.util.List;
@@ -23,10 +23,10 @@ import java.util.List;
 public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapter.ViewHolder> {
     private Context context;
 
-    private List<Info> infoList;
+    private List<InfoType> infoTypeList;
 
-    public InfoRecyclerAdapter(List<Info> infoList) {
-        this.infoList = infoList;
+    public InfoRecyclerAdapter(List<InfoType> infoTypeList) {
+        this.infoTypeList = infoTypeList;
     }
 
     @NonNull
@@ -39,13 +39,13 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Info info = infoList.get(position);
-        if(info == null){
+        InfoType infoType = infoTypeList.get(position);
+        if(infoType == null){
             return;
         }
-        Glide.with(context).load(info.getImg()).into(holder.ivImg);
-        holder.tvTitle.setText(info.getTitle());
-        holder.tvContent.setText(info.getContent());
+        Glide.with(context).load(infoType.getImg()).into(holder.ivImg);
+        holder.tvTitle.setText(infoType.getTitle());
+        holder.tvContent.setText(infoType.getContent());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,7 @@ public class InfoRecyclerAdapter extends RecyclerView.Adapter<InfoRecyclerAdapte
 
     @Override
     public int getItemCount() {
-        return infoList.size();
+        return infoTypeList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

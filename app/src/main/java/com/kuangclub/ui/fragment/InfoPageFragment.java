@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.kuangclub.R;
 import com.kuangclub.http.ResponseBody;
 import com.kuangclub.http.ServiceFactory;
-import com.kuangclub.model.bean.Info;
+import com.kuangclub.model.bean.InfoType;
 import com.kuangclub.model.service.InfoService;
 import com.kuangclub.ui.adapter.InfoRecyclerAdapter;
 import com.kuangclub.ui.base.BaseFragment;
@@ -36,7 +36,7 @@ public class InfoPageFragment extends BaseFragment {
 
     private String type;
     private int page;
-    private List<Info> infoList;
+    private List<InfoType> infoTypeList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class InfoPageFragment extends BaseFragment {
     @Override
     protected void initData(@Nullable Bundle savedInstanceState) {
         super.initData(savedInstanceState);
-        infoList = new ArrayList<>();
-        infoRecyclerAdapter = new InfoRecyclerAdapter(infoList);
+        infoTypeList = new ArrayList<>();
+        infoRecyclerAdapter = new InfoRecyclerAdapter(infoTypeList);
     }
 
     @Override
@@ -93,13 +93,13 @@ public class InfoPageFragment extends BaseFragment {
         super.refreshData();
         page = 0;
         ServiceFactory.createService(getActivity(), InfoService.class)
-                .getInfoList(type, page)
-                .enqueue(new Callback<ResponseBody<List<Info>>>() {
+                .getInfoTypeList(type, page)
+                .enqueue(new Callback<ResponseBody<List<InfoType>>>() {
                     @Override
-                    public void onResponse(Call<ResponseBody<List<Info>>> call, Response<ResponseBody<List<Info>>> response) {
-                        List<Info> data = response.body().getData();
-                        infoList.clear();
-                        infoList.addAll(data);
+                    public void onResponse(Call<ResponseBody<List<InfoType>>> call, Response<ResponseBody<List<InfoType>>> response) {
+                        List<InfoType> data = response.body().getData();
+                        infoTypeList.clear();
+                        infoTypeList.addAll(data);
                         infoRecyclerAdapter.notifyDataSetChanged();
                         if(swipeRefreshLayout.isRefreshing()){
                             swipeRefreshLayout.setRefreshing(false);
@@ -107,7 +107,7 @@ public class InfoPageFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseBody<List<Info>>> call, Throwable t) {
+                    public void onFailure(Call<ResponseBody<List<InfoType>>> call, Throwable t) {
 
                     }
                 });

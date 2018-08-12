@@ -16,9 +16,9 @@ import retrofit2.http.Query;
 public interface InfoService {
 
     @GET(Api.getInfoTypeList)
-    Call<ResponseBody<List<InfoType>>> getInfoTypeList();
+    Call<ResponseBody<List<Info>>> getInfoList();
 
     @GET(Api.getInfoList)
-    Call<ResponseBody<List<Info>>> getInfoList(@Query("type")String type, @Query("page")int page);
+    Call<ResponseBody<List<InfoType>>> getInfoTypeList(@Query("type")String type, @Query("page")int page);
 
 }
