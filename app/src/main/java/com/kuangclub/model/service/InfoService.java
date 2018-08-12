@@ -15,10 +15,10 @@ import retrofit2.http.Query;
  */
 public interface InfoService {
 
-    @GET(Api.getInfoTypeList)
+    @GET(Api.getInfoList)
     Call<ResponseBody<List<Info>>> getInfoList();
 
-    @GET(Api.getInfoList)
+    @GET(Api.getInfoTypeList)
     Call<ResponseBody<List<InfoType>>> getInfoTypeList(@Query("type")String type, @Query("page")int page);
 
 }
