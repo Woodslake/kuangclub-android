@@ -7,19 +7,19 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class ResponseBody<T> {
-    @SerializedName("code")
-    private int code;
+    @SerializedName("status")
+    private int status;
     @SerializedName("message")
     private String message;
     @SerializedName("data")
     private T data;
 
-    public int getCode() {
-        return code;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getMessage() {
